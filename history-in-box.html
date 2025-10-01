@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Songs, Dance and Story - History in a Box</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inclusive Sans', sans-serif;
+            background: linear-gradient(135deg, #82d4e2 0%, #bcdcd0 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #000;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #f68b27 0%, #fb6d00 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .nav-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .nav-btn {
+            background: #82d4e2;
+            color: #000;
+            border: none;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            font-family: 'Inclusive Sans', sans-serif;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(130, 212, 226, 0.5);
+            background: #6ec4d4;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: #fb6d00;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #f68b27;
+        }
+        
+        h3 {
+            color: #f68b27;
+            font-size: 1.5em;
+            margin: 30px 0 15px 0;
+        }
+        
+        .instruction-box {
+            background: #e7e5c2;
+            border-left: 5px solid #f68b27;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .instruction-box h4 {
+            color: #fb6d00;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .video-container {
+            margin: 25px 0;
+            text-align: center;
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        
+        .video-container iframe {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #bcdcd0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Inclusive Sans', sans-serif;
+            resize: vertical;
+            margin-top: 10px;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #82d4e2;
+        }
+        
+        .response-box {
+            margin: 20px 0;
+        }
+        
+        .response-box label {
+            display: block;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+        
+        .back-btn, .save-btn {
+            background: #f68b27;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 30px;
+            margin-right: 10px;
+            transition: background 0.2s;
+            font-family: 'Inclusive Sans', sans-serif;
+            font-weight: 600;
+        }
+        
+        .back-btn:hover, .save-btn:hover {
+            background: #fb6d00;
+        }
+        
+        .save-btn {
+            background: #82d4e2;
+            color: #000;
+        }
+        
+        .save-btn:hover {
+            background: #6ec4d4;
+        }
+        
+        .collapsible-section {
+            margin: 25px 0;
+            border: 2px solid #f68b27;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .collapsible-header {
+            background: #f68b27;
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .collapsible-header:hover {
+            background: #fb6d00;
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #fefdfb;
+        }
+        
+        .collapsible-content.open {
+            max-height: 2000px;
+        }
+        
+        .collapsible-inner {
+            padding: 20px;
+            line-height: 1.8;
+        }
+        
+        .arrow {
+            transition: transform 0.3s;
+        }
+        
+        .arrow.open {
+            transform: rotate(180deg);
+        }
+        
+        .word-match {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+            background: #e7e5c2;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        
+        .word-pair {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .wiradjuri-word {
+            background: #82d4e2;
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            min-width: 150px;
+            text-align: center;
+        }
+        
+        .english-word {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 2px solid #bcdcd0;
+        }
+        
+        .language-hunt {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        
+        .image-label-box {
+            background: #e7e5c2;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .image-label-box img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid #bcdcd0;
+        }
+        
+        .image-label-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #bcdcd0;
+            border-radius: 8px;
+            font-size: 1em;
+            text-align: center;
+            font-family: 'Inclusive Sans', sans-serif;
+        }
+        
+        .image-label-box input:focus {
+            outline: none;
+            border-color: #82d4e2;
+        }
+        
+        .intro-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #000;
+            margin-bottom: 30px;
+        }
+        
+        .wip-notice {
+            background: #e7e5c2;
+            border: 2px solid #f68b27;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .wip-notice h3 {
+            color: #fb6d00;
+            margin: 0 0 10px 0;
+        }
+        
+        .wip-notice p {
+            color: #000;
+            margin: 0;
+        }
+        
+        .button-group {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+            }
+            
+            .nav-btn, .back-btn, .save-btn, .collapsible-header {
+                display: none;
+            }
+            
+            .page {
+                display: block !important;
+                page-break-after: always;
+            }
+            
+            .video-container {
+                border: 2px solid #bcdcd0;
+                padding: 20px;
+            }
+            
+            .video-container::after {
+                content: "[Video content - see online version]";
+                display: block;
+                margin-top: 10px;
+                font-style: italic;
+                color: #666;
+            }
+            
+            .video-container iframe {
+                display: none;
+            }
+        }
+        
+        .save-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .save-modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .modal-content h3 {
+            color: #fb6d00;
+            margin-bottom: 20px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Songs, Dance and Story</h1>
+            <p>First Nations' Knowledge, Language and Oral Traditions</p>
+        </header>
+        
+        <div class="content">
+            <!-- Home Page -->
+            <div id="home" class="page active">
+                <h2>Welcome to History in a Box</h2>
+                <div class="intro-text">
+                    <p>In this interactive resource, you will explore how Aboriginal Peoples' languages and oral traditions of song, dance, and story were disrupted by European settlement.</p>
+                    <p>Through three activities, you will investigate songlines, star maps, Wiradjuri language, and the deep connection Aboriginal peoples have with Country.</p>
+                    <p><strong>Choose an activity below to begin your learning journey:</strong></p>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn" onclick="showPage('activity1')">Activity 1:<br>Songlines & Star Maps</button>
+                    <button class="nav-btn" onclick="showPage('activity2')">Activity 2:<br>Oral Traditions</button>
+                    <button class="nav-btn" onclick="showPage('activity3')">Activity 3:<br>European Settlement</button>
+                </div>
+                
+                <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #bcdcd0;">
+                    <button class="save-btn" onclick="saveWork()">💾 Save & Print My Work</button>
+                </div>
+            </div>
+            
+            <!-- Activity 1 -->
+            <div id="activity1" class="page">
+                <h2>Activity 1: Exploring Songlines and Star Maps</h2>
+                
+                <div class="instruction-box">
+                    <h4>📖 Read: Chapter 1 of "Songlines: First Knowledges for Younger Readers"</h4>
+                    <p>Read the chapter titled "Exploring Songlines" from your physical book.</p>
+                </div>
+                
+                <h3>See–Think–Wonder</h3>
+                <p>Look at the <strong>Wiradjuri Star Map image</strong> from your artefact box and use the See–Think–Wonder thinking routine:</p>
+                
+                <div class="response-box">
+                    <label>What do you SEE in the star map?</label>
+                    <textarea id="see1" placeholder="Describe what you observe in the image..."></textarea>
+                </div>
+                
+                <div class="response-box">
+                    <label>What do you THINK? How might this image relate to songlines?</label>
+                    <textarea id="think1" placeholder="Share your thoughts and connections..."></textarea>
+                </div>
+                
+                <div class="response-box">
+                    <label>What do you WONDER about star maps and songlines?</label>
+                    <textarea id="wonder1" placeholder="What questions do you have?"></textarea>
+                </div>
+                
+                <h3>Watch: Wiradjuri Star Dreaming</h3>
+                <div class="video-container">
+                    <iframe title="vimeo-player" src="https://player.vimeo.com/video/769768880?h=6b9ea8444a" width="640" height="360" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" allowfullscreen></iframe>
+                </div>
+                
+                <div class="response-box">
+                    <label>Reflect: How do Wiradjuri people use the stars?</label>
+                    <textarea id="reflect1" placeholder="Think about what you learned from the video..."></textarea>
+                </div>
+                
+                <div class="collapsible-section">
+                    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                        <span>📚 Read More: Aboriginal Star Maps</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="collapsible-inner">
+                            <h4>Aboriginal Star Maps: Ancient Navigation Systems</h4>
+                            
+                            <h4>Star Maps</h4>
+                            <p>Aboriginal star maps are patterns of stars used as memory aids for navigation. Unlike regular maps, these star patterns don't directly show the direction of travel. Instead, they represent important waypoints along a journey route, similar to how modern GPS systems use waypoints to mark stopping or turning points.</p>
+                            
+                            <p>The stars in these patterns correspond to significant locations on the landscape, such as waterholes for drinking water, places to change direction, and rest stops along the route.</p>
+                            
+                            <h4>Stars to Songlines</h4>
+                            <p>For Kamilaroi and Euahlayi peoples in northwest NSW, when the summer travel was being planned in August or September, a person who had travelled the intended route was tasked with teaching others, who had not made this journey, how to navigate to the intended destination.</p>
+                            
+                            <p>The pattern of stars, known as the star map, was taught and memorised using songs, known as songlines.</p>
+                            
+                            <p>Songlines are cultural stories that travel across the landscape, connecting places through song and navigation knowledge. Aboriginal people say that the landscape itself holds these songs.</p>
+                            
+                            <h4>Songlines for Navigation</h4>
+                            <p>Songlines cover impressive distances. Kamilaroi people have local songlines from Goodooga that extend up to 700 kilometres away. However, long-distance routes stretch over 1,500 kilometres, such as routes from Alice Springs to meet Euahlayi people for ceremonies.</p>
+                            
+                            <p>Star maps were used by the Kamilaroi people to navigate from Goodooga to the Bunya Mountains (northwest of Brisbane), where the Aboriginal Bunya nut festival was held every three years until disrupted by European invasion.</p>
+                            
+                            <h4>Connection to Modern Roads</h4>
+                            <p>Research reveals that many ancient Aboriginal travel routes align closely with today's major highways. This occurred because early European explorers used Aboriginal guides, and local Aboriginal people who likely gave them directions of established routes.</p>
+                            
+                            <p>These routes would have been the easiest paths across the landscape, so settlers and drovers continued using these same paths. Eventually, the paths became modern roads and highways.</p>
+                            
+                            <p>The Kamilaroi Highway in New South Wales is one example where this Aboriginal contribution is officially recognised in the road's name.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+                    <button class="save-btn" onclick="saveWork()">💾 Save & Print My Work</button>
+                </div>
+            </div>
+            
+            <!-- Activity 2 -->
+            <div id="activity2" class="page">
+                <h2>Activity 2: Oral Traditions and Connection to Country</h2>
+                
+                <div class="instruction-box">
+                    <h4>📖 Read: Pages 51–53 (Chapter 5: Songlines of Survival)</h4>
+                    <p>Read the start of Chapter 5 from your physical book.</p>
+                </div>
+                
+                <h3>Watch: Platypus Creation Story</h3>
+                <div class="video-container">
+                    <iframe title="vimeo-player" src="https://player.vimeo.com/video/769754872?h=b0ade66fd5" width="640" height="360" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" allowfullscreen></iframe>
+                </div>
+                
+                <h3>Wiradjuri Word Match-Up</h3>
+                <p>Match the Wiradjuri words with their English meanings:</p>
+                <div class="word-match">
+                    <div class="word-pair">
+                        <div class="wiradjuri-word">Biladurang</div>
+                        <div class="english-word">Platypus</div>
+                    </div>
+                    <div class="word-pair">
+                        <div class="wiradjuri-word">Mindi</div>
+                        <div class="english-word">Younger sister</div>
+                    </div>
+                    <div class="word-pair">
+                        <div class="wiradjuri-word">Wambuwanybang</div>
+                        <div class="english-word">Duck</div>
+                    </div>
+                    <div class="word-pair">
+                        <div class="wiradjuri-word">Munun</div>
+                        <div class="english-word">Water rat</div>
+                    </div>
+                    <div class="word-pair">
+                        <div class="wiradjuri-word">Gudhi</div>
+                        <div class="english-word">Baby</div>
+                    </div>
+                </div>
+                
+                <div class="response-box">
+                    <label>Reflect: What does the Platypus Creation story teach Wiradjuri people?</label>
+                    <textarea id="reflect2" placeholder="Think about the lessons and values in this story..."></textarea>
+                </div>
+                
+                <h3>Watch: Wiradjuri Seasons</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/4JErB05udwg?si=1gm3iEWjUJaiWWMJ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                
+                <h3>Language Hunt: Signs of Yarraga</h3>
+                <p><strong>Watch the video above and find the Wiradjuri words for these 5 signs of yarraga (springtime).</strong> Type the Wiradjuri name under each image:</p>
+                
+                <div class="language-hunt">
+                    <div class="image-label-box">
+                        <img src="https://live.staticflickr.com/8536/15593406569_a4c2de375f_b.jpg" alt="Ngawang plant">
+                        <input type="text" id="word1" placeholder="Wiradjuri name">
+                    </div>
+                    <div class="image-label-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/07/Lachlan_River_at_Booligal_NSW_1.jpg" alt="River flowing">
+                        <input type="text" id="word2" placeholder="Wiradjuri name">
+                    </div>
+                    <div class="image-label-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Duck-billed_platypus_%28Ornithorhynchus_anatinus%29_Scottsdale.jpg" alt="Platypus">
+                        <input type="text" id="word3" placeholder="Wiradjuri name">
+                    </div>
+                    <div class="image-label-box">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Giant_Banjo_Frog_%28Limnodynastes_interioris%29_photographed_in_Wagga_Wagga%2C_NSW.jpg/1600px-Giant_Banjo_Frog_%28Limnodynastes_interioris%29_photographed_in_Wagga_Wagga%2C_NSW.jpg" alt="Banjo frog">
+                        <input type="text" id="word4" placeholder="Wiradjuri name">
+                    </div>
+                    <div class="image-label-box">
+                        <img src="https://live.staticflickr.com/2868/9212263383_752becdfc5_b.jpg" alt="Wattle flowers">
+                        <input type="text" id="word5" placeholder="Wiradjuri name">
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+                    <button class="save-btn" onclick="saveWork()">💾 Save & Print My Work</button>
+                </div>
+            </div>
+            
+            <!-- Activity 3 -->
+            <div id="activity3" class="page">
+                <h2>Activity 3: First Nations' Knowledge after European Settlement</h2>
+                
+                <div class="instruction-box">
+                    <h4>📖 Read: Chapter 9 - Keeping Songlines Strong</h4>
+                    <p>Read Chapter 9 from your physical book.</p>
+                </div>
+                
+                <div class="wip-notice">
+                    <h3>🚧 Work in Progress</h3>
+                    <p>This activity is being developed and will include exploration of the Botany Bay maps and reflection on the impacts of European settlement on songlines and First Nations' knowledge.</p>
+                </div>
+                
+                <h3>Exploring the Maps</h3>
+                <p>Look at the <strong>Botany Bay maps</strong> from your artefact box (before and after European settlement).</p>
+                
+                <div class="response-box">
+                    <label>Notes and observations:</label>
+                    <textarea id="notes3" placeholder="What do you notice about the changes to the landscape?"></textarea>
+                </div>
+                
+                <div class="button-group">
+                    <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+                    <button class="save-btn" onclick="saveWork()">💾 Save & Print My Work</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="saveModal" class="save-modal">
+        <div class="modal-content">
+            <h3>Save Your Work</h3>
+            <p>Choose how you'd like to save your responses:</p>
+            <div class="modal-buttons">
+                <button class="save-btn" onclick="printWork()">🖨️ Print</button>
+                <button class="back-btn" onclick="closeSaveModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+        
+        function toggleCollapsible(header) {
+            const content = header.nextElementSibling;
+            const arrow = header.querySelector('.arrow');
+            
+            content.classList.toggle('open');
+            arrow.classList.toggle('open');
+        }
+        
+        function saveWork() {
+            document.getElementById('saveModal').classList.add('active');
+        }
+        
+        function closeSaveModal() {
+            document.getElementById('saveModal').classList.remove('active');
+        }
+        
+        function printWork() {
+            closeSaveModal();
+            
+            // Store current page
+            const currentPage = document.querySelector('.page.active').id;
+            
+            // Show all pages for printing
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.style.display = 'block';
+            });
+            
+            // Open all collapsible sections
+            const collapsibles = document.querySelectorAll('.collapsible-content');
+            collapsibles.forEach(c => c.classList.add('open'));
+            
+            // Print
+            window.print();
+            
+            // Restore view
+            pages.forEach(page => {
+                page.style.display = '';
+            });
+            showPage(currentPage);
+        }
+    </script>
+</body>
+</html>
